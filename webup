@@ -1,8 +1,8 @@
 #!/bin/bash
-# Webup v1.04
+# Webup v1.05
 #
 # Install: the balise on site following this example: <!--82E5E592D805E37283A939D5B26D4917-->
-# Param: sum = perform the checksum + lines counting, nosum = perform the line counting only
+# Param: sum = perform the checksum + lines counting, nosum = perform the checksum only
 #
 
 tmpfld='/var/tmp/webup/' ; mkdir -p "$tmpfld"
@@ -21,8 +21,13 @@ log () {
 }
 
 sites=(
- 	"ASITY-INTL.COM;			asity-intl.com;					71C29B281A8B6FA4FAEA0C505D49D2A3;		nosum"
- 	"VIAMETRIS.INFO;			viametris.info/iMMS/EN/;		C7F8D36866A38A3BB6526285C84C2768;		sum"
+ 	"PILOTAGEGIRONDE.COM;		http://www.pilotagegironde.com;		615D292A0483C9F6FA3C71B7F3C162D6;		sum"
+ 	"ASITY-INTL.COM;			https://asity-intl.com;				71C29B281A8B6FA4FAEA0C505D49D2A3;		nosum"
+ 	"KLEENUP.ME;				https://www.kleenup.me;				9F73F738273C61D2D15083A19D2D290C;		sum"
+# 	"ES.KLEENUP.ME;				http://es.kleenup.me;				EA9AE727F492A8B515C3F93C93B9E48C;		sum"
+ 	"JEFFTOP.COM;				https://jefftop.com;				82E5E592D805E37283A939D5B26D4917;		sum"
+ 	"VIAMETRIS.INFO;			http://viametris.info/iMMS/EN/;		C7F8D36866A38A3BB6526285C84C2768;		sum"
+	"AZURLIGHT-SYS.COM;			http://azurlight-systems.com;		CB129AB6E7C4A785A058734B242CD8A6;		nosum"
 )
 
 
@@ -37,7 +42,7 @@ for ((i=0; i<${#sites[*]}; i++)); do
 	log "$name : $site : $string : $checksum"
 
 	rm -f "$file_curl_err"
-	curl -s http://$site >"$file_curl" 2>"$file_curl_err"
+	curl -s $site >"$file_curl" 2>"$file_curl_err"
 	
 	if [ -f "$file_curl_err" ] && [ $(cat "$file_curl_err" | wc -l) -gt 0 ]; then
 		log "curl error encountered"
